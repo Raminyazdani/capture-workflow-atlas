@@ -1,0 +1,201 @@
+.atlas-canvas {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #f5f8f5;
+  color: #20372f;
+  --xy-edge-stroke-default: #a4b2ae;
+  --xy-edge-stroke-width-default: 1.5;
+  --xy-node-border-radius: 9px;
+  --xy-minimap-background-color-default: #fcfdfb;
+  --xy-selection-background-color-default: #5a987c20;
+  --xy-selection-border-default: 1px solid #58957e;
+}
+.atlas-canvas .react-flow {
+  outline: none;
+  touch-action: none;
+}
+.atlas-canvas .react-flow__node-stage {
+  border: 0;
+  border-radius: 9px;
+  padding: 0;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+}
+.atlas-canvas .react-flow__node-stage:focus-visible {
+  outline: 2px solid #256d62;
+  outline-offset: 5px;
+}
+.atlas-stage {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 11px 13px 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  border: 1px solid #cbd6d0;
+  border-radius: 9px;
+  background: #fff;
+  color: #233a33;
+  box-shadow: 0 2px 5px #20413109, 0 1px 1px #20413107;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.atlas-stage:hover {
+  border-color: var(--stage-color);
+  box-shadow: 0 3px 9px #244c3514;
+}
+.atlas-canvas .react-flow__node.dragging .atlas-stage { cursor: grabbing; }
+.atlas-stage--active {
+  border-color: var(--stage-color);
+  box-shadow: 0 0 0 1.1px var(--stage-color), 0 3px 9px #244c3511;
+}
+.atlas-stage__meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 7px;
+  min-height: 24px;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 720;
+  line-height: 1;
+  letter-spacing: .085em;
+  text-transform: uppercase;
+  color: var(--stage-color);
+}
+.atlas-stage__icon {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  border-radius: 6px;
+  background: var(--stage-tint);
+  color: var(--stage-color);
+}
+.atlas-stage__grip {
+  margin-left: auto;
+  align-self: flex-start;
+  color: #a7b4ad;
+}
+.atlas-stage__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 15.2px;
+  font-weight: 690;
+  letter-spacing: -.032em;
+  line-height: 1.2;
+  color: #21372d;
+}
+.atlas-stage__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-top: 4px;
+  color: #576a60;
+  font-size: 11px;
+  line-height: 1.3;
+  letter-spacing: -.007em;
+}
+.atlas-stage .react-flow__handle {
+  min-width: 0;
+  min-height: 0;
+  width: 6px;
+  height: 6px;
+  box-sizing: border-box;
+  border: 1.2px solid var(--stage-color);
+  border-radius: 50%;
+  background: white;
+  pointer-events: none;
+}
+.atlas-canvas .react-flow__edge-path {
+  stroke: #9badb1;
+  stroke-width: 1.5;
+}
+.atlas-canvas .atlas-edge--active .react-flow__edge-path {
+  stroke: #64877d;
+  stroke-width: 1.85;
+}
+.atlas-canvas__tools {
+  position: absolute;
+  z-index: 5;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 3px;
+  border: 1px solid #cad5cd;
+  border-radius: 8px;
+  background: #fffffffa;
+  box-shadow: 0 3px 12px #213e2910;
+}
+.atlas-canvas__tools button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #41584c;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+}
+.atlas-canvas__tools button:hover { background: #eaf1eb; color: #1c4d3b; }
+.atlas-canvas__tools button:focus-visible { outline: 2px solid #43836a; outline-offset: -2px; }
+.atlas-canvas__tools button:disabled { opacity: .4; }
+.atlas-canvas__tools output {
+  color: #405348;
+  min-width: 39px;
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.atlas-canvas__separator { height: 15px; border-left: 1px solid #d7dfd8; margin: 0 4px; }
+.atlas-canvas .atlas-minimap {
+  overflow: hidden;
+  margin: 0;
+  right: 18px;
+  bottom: 24px;
+  width: 112px;
+  height: 67px;
+  border: 1px solid #c4d0c7;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 6px #243b2910;
+}
+.atlas-canvas .atlas-minimap svg { width: 100%; height: 100%; }
+.atlas-canvas .react-flow__attribution {
+  margin: 0 5px 2px 0;
+  padding: 0 3px;
+  background: transparent;
+  font-size: 7px;
+}
+.atlas-canvas .react-flow__attribution a { color: #788a80; }
+@container (max-width: 660px) {
+  .atlas-canvas .atlas-minimap { width: 85px; height: 50px; right: 12px; bottom: 16px; }
+  .atlas-canvas__tools { left: 12px; bottom: 14px; }
+}
+@container (max-width: 465px) {
+  .atlas-canvas .atlas-minimap { display: none; }
+  .atlas-canvas__tools button { width: 34px; height: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas-canvas *, .atlas-canvas *::before, .atlas-canvas *::after { scroll-behavior: auto; }
+}
