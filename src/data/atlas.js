@@ -1,6 +1,8 @@
 import { countNodes, countEdges } from './counts.js';
 import { fragmentNodes, fragmentEdges } from './fragments.js';
 import { studyNodes, studyEdges } from './regulatory.js';
+import { reviewNodes } from './studyReview.js';
+import { buildRoutes } from './detailed.js';
 
 export const revision = 'ed81238dd9d7316f50f0da648de05d8470f0836c';
 export const pipeline = 'https://github.com/Raminyazdani/capture-workflow';
@@ -80,20 +82,18 @@ const fragmentRnaNodes = rnaNodes.map(n => ({
   ...n, ...fragmentRnaOverrides[n.id], routes: ['fragments'],
 }));
 
-export const routes = [
+export const routes = buildRoutes([
   {id:'overview', label:'Overview', title:'Workflow overview', description:'Three supported input routes and their analysis endpoints.', entry:'manifest', nodes:overviewNodes, edges:overviewEdges},
-  {id:'rna', label:'RNA only', title:'RNA expression', description:'From raw counts through capture-level QC to an RNA clustering checkpoint.', entry:'rna_load', nodes:rnaNodes, edges:rnaEdges},
-  {id:'paired', label:'Paired peaks', title:'Paired peak counts', description:'RNA modeling and shared peaks meet at barcode alignment, then branch into ATAC and WNN.', entry:'rna_load', nodes:countNodes, edges:countEdges},
-  {id:'fragments', label:'Fragments', title:'Fragment-backed multiome', description:'Parallel RNA and fragment preparation join at QC, human review and paired refitting.', entry:'fr-input', nodes:[...fragmentNodes,...fragmentRnaNodes], edges:[
+  {id:'rna', label:'RNA-seq', title:'RNA-seq from counts to clusters', description:'From raw counts through capture-level QC to an RNA clustering checkpoint.', entry:'rna_load', nodes:rnaNodes, edges:rnaEdges},
+  {id:'paired', label:'RNA + ATAC-seq peaks', title:'RNA-seq and ATAC-seq from shared peaks', description:'RNA modeling and shared peaks meet at barcode alignment, then branch into ATAC and WNN.', entry:'rna_load', nodes:countNodes, edges:countEdges},
+  {id:'fragments', label:'ATAC-seq fragments', title:'ATAC-seq from fragments to paired WNN', description:'Parallel RNA and fragment preparation join at QC, human review and paired refitting.', entry:'fr-input', nodes:[...fragmentNodes,...fragmentRnaNodes], edges:[
     ...fragmentEdges,...rnaEdges,['fr-input','rna_load'],['rna_capture_assemble','fr-prepare'],['rna_filter','fr-qc'],['rna_cluster','fr-rna-review']]},
-  {id:'study', label:'Regulatory study', title:'Regulatory study extension', description:'The study’s downstream research methods. The public pipeline’s tested endpoints are the clustering stages.', entry:'study-start', nodes:studyNodes, edges:studyEdges},
-];
-for (const route of routes) {
-  const nodeIds = new Set(route.nodes.map(n=>n.id));
-  if (nodeIds.size !== route.nodes.length || !nodeIds.has(route.entry) || route.edges.some(([a,b])=>!nodeIds.has(a)||!nodeIds.has(b))) {
-    throw new Error('Invalid graph in '+route.id);
-  }
-}
+  {id:'study', label:'Regulatory study', title:'Regulatory study extension', description:'The study’s downstream research methods. The public pipeline’s tested endpoints are the clustering stages.', entry:'study-start', nodes:[studyNodes[0],...reviewNodes,...studyNodes.slice(1)], edges:[
+    ...studyEdges,['study-start','study-annotation'],['study-start','study-sensitivity'],['study-start','study-coordinates'],
+    ...['study-activity','study-links','study-motifs','study-consensus','study-scores'].map(target=>['study-annotation',target]),
+    ['study-coordinates','study-links'],
+  ]},
+]);
 export const byRoute = Object.fromEntries(routes.map(r=>[r.id,r]));
 export function kindGroup(kind) {
   if (['input','reference'].includes(kind)) return 'input';

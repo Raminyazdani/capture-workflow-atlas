@@ -2,9 +2,9 @@ const scenicGuide = 'https://scenicplus.readthedocs.io/en/latest/human_cerebellu
 
 export const studyNodes = [
   {
-    id: 'study-start', title: 'Reviewed paired nuclei', subtitle: 'Start the study extension after WNN clustering', kind: 'input',
-    inputs: ['Matched RNA and ATAC measurements, fragment coordinates, reviewed cell labels and capture identifiers.', 'A genome assembly and matching gene annotation.'],
-    actions: ['Carry the same nucleus IDs into each assay and attach the reviewed broad cell classes.', 'Use the shared-peak counts for targeted checks. Start a separate network analysis from the original fragments and aligned RNA expression.'],
+    id: 'study-start', title: 'Prepare the paired study inputs', subtitle: 'Start the study extension after WNN clustering', kind: 'input',
+    inputs: ['Matched RNA-seq and ATAC-seq measurements, the WNN partition, original fragments and capture identifiers.', 'A genome assembly and matching gene annotation.'],
+    actions: ['Carry the same nucleus IDs and cluster assignments into the marker review and sensitivity comparisons.', 'Use shared-peak counts for targeted checks. Start a separate network analysis from original fragments and aligned RNA-seq expression.'],
     parameters: [{name: 'Unit of analysis', value: 'A nucleus with matched measurements'}, {name: 'Software scope', value: 'This is a methods companion to the study. The public workflow’s tested analysis ends at RNA, ATAC and WNN clustering.'}],
     outputs: ['A common set of nucleus IDs for targeted comparisons and exploratory network inference.'],
     source: 'docs/validation.md',

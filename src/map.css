@@ -109,6 +109,59 @@
   line-height: 1.3;
   letter-spacing: -.007em;
 }
+.atlas-stage__heading { min-width: 0; }
+.atlas-stage--group { padding: 0; }
+.atlas-stage--group .atlas-stage__heading {
+  padding: 10px 14px 7px;
+  height: 94px;
+  flex: 0 0 94px;
+  border-bottom: 1px solid #dde5df;
+  overflow: hidden;
+}
+.atlas-stage__title-button {
+  display: block;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.atlas-stage__title-button:hover { color: var(--stage-color); }
+.atlas-stage__title-button:focus-visible,
+.atlas-step:focus-visible { outline: 2px solid var(--stage-color); outline-offset: -2px; }
+.atlas-stage__operations {
+  padding: 6px;
+  flex: none;
+  border-radius: 0 0 9px 9px;
+  background: #fbfcfb;
+}
+.atlas-step {
+  width: 100%; height: 40px; padding: 0 8px;
+  display: grid; grid-template-columns: 20px minmax(0, 1fr) 13px; gap: 8px; align-items: center;
+  appearance: none; border: 1px solid transparent; border-radius: 4px;
+  cursor: pointer; background: none; text-align: left; font-family: inherit;
+}
+.atlas-step + .atlas-step { border-top-color: #e6eae6; }
+.atlas-step__index {
+  display: grid; place-items: center; width: 20px; height: 20px;
+  font: 600 10px ui-monospace, monospace; color: var(--stage-color);
+  background: var(--stage-tint); border-radius: 4px;
+}
+.atlas-step__title {
+  font-size: 12px; font-weight: 620; line-height: 1.33; color: #35473f;
+  overflow: hidden; overflow-wrap: anywhere; display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.atlas-step svg { color: #93a299; }
+.atlas-step:hover { background: #f0f5f0; }
+.atlas-step.atlas-step--selected {
+  border-color: var(--stage-color);
+  background: color-mix(in srgb, var(--stage-tint) 65%, white);
+}
+.atlas-step--selected .atlas-step__title,
+.atlas-step--selected svg { color: var(--stage-color); }
 .atlas-stage .react-flow__handle {
   min-width: 0;
   min-height: 0;
@@ -121,12 +174,7 @@
   pointer-events: none;
 }
 .atlas-canvas .react-flow__edge-path {
-  stroke: #9badb1;
-  stroke-width: 1.5;
-}
-.atlas-canvas .atlas-edge--active .react-flow__edge-path {
-  stroke: #64877d;
-  stroke-width: 1.85;
+  stroke-linecap: round;
 }
 .atlas-canvas__tools {
   position: absolute;
